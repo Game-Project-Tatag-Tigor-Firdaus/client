@@ -5,8 +5,9 @@
       <img v-else-if="direction === 'left'" class="box" src="../assets/left.png" alt="">
       <img v-else-if="direction === 'up'" class="box" src="../assets/up.png" alt="">
       <img v-else-if="direction === 'down'" class="box" src="../assets/down.png" alt="">
-      
     </div>
+    <h1 style="position: fixed; bottom: 1vh; left: 1vw;">Score : {{score}}</h1>
+    <img class="box" :style="{top: food[0] + 'vh', left: food[1] + 'vw'}" v-for="(food, index) in foods" :key="index" src="../assets/obeng.png" alt="">
 </div>
 </template>
 
@@ -17,7 +18,14 @@ export default {
           topPosition: 0,
           leftPosition: 0,
           direction: 'right',
-          moving: null
+          moving: null,
+          foods: [
+            [10,10],
+            [12,70],
+            [60,80],
+            [60,20]
+          ],
+          score: 0
         }
     },
     methods: {
@@ -43,16 +51,24 @@ export default {
             
           }
           if(e.code === "ArrowDown"){
-         
               this.direction = 'down'
               this.topPosition += 0.2
-            
           }
-        }, 2)
+
+        },2)
       }
     },
     watch: {
       leftPosition(){
+          for(let el in this.foods){ 
+            if(this.topPosition < (this.foods[el][0] + 5) && this.topPosition > this.foods[el][0] && 
+              this.leftPosition < (this.foods[el][1] + 5) && this.leftPosition > this.foods[el][1]){
+              console.log('kena atas')
+              this.score++
+              this.foods.splice(el,1)
+              if(this.foods.length=== 0)clearInterval(this.moving)
+            }
+          }
         if((this.leftPosition + 5) < 0){
           this.leftPosition = 100
         }
@@ -61,6 +77,16 @@ export default {
         }
       },
       topPosition(){
+
+          for(let el in this.foods){ 
+            if(this.topPosition < (this.foods[el][0] + 5) && this.topPosition > this.foods[el][0] && 
+              this.leftPosition < (this.foods[el][1] + 5) && this.leftPosition > this.foods[el][1]){
+              console.log('kena atas')
+              this.score++
+              this.foods.splice(el,1)
+              if(this.foods.length=== 0)clearInterval(this.moving)
+            }
+          }
         if((this.topPosition + 5) < 0){
           this.topPosition = 100
         }
@@ -70,6 +96,7 @@ export default {
       }
     },
     created(){
+      console.log(this.foods)
       window.addEventListener('keyup', this.handler);
    
     }
