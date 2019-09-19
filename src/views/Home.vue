@@ -39,7 +39,7 @@
     <!-- ISI DISINI BUAT DITENGAH -->
 
     <v-content>
-      <playerBoard></playerBoard>
+      <!-- <playerBoard></playerBoard> -->
 
       <!-- <v-container class="fill-height" fluid>
 
@@ -49,23 +49,54 @@
     <!-- Opponent Board Hidden Behind V-Navigation-Drawer -->
 
     <v-navigation-drawer v-model="right" fixed right temporary></v-navigation-drawer>
+
+    <login :loginModal="loginModal" @statusLogin="changeLoginStatus" />
   </div>
 </template>
 
 <script>
 import playerBoard from "../components/PlayerBoard";
+import login from "../components/Login";
+
 export default {
   components: {
-    playerBoard
+    playerBoard,
+    login
   },
   props: {
     source: String
   },
   data: () => ({
+    isLogin: false,
     drawer: null,
     drawerRight: null,
     right: false,
-    left: false
-  })
+    left: false,
+    loginModal: false
+  }),
+  methods: {
+    changeLoginStatus(cond, payload) {
+      console.log("============ Masuk ============");
+      localStorage.setItem("username", payload);
+      this.isLogin = cond;
+      this.checkLoginStatus();
+    },
+    checkLoginStatus() {
+      console.log(localStorage.getItem("username"));
+      if (localStorage.getItem("username")) {
+        this.isLogin = true;
+        this.triggerModal(false);
+      } else {
+        this.isLogin = false;
+        this.triggerModal(true);
+      }
+    },
+    triggerModal(bool) {
+      this.loginModal = bool;
+    }
+  },
+  created() {
+    this.checkLoginStatus();
+  }
 };
 </script>

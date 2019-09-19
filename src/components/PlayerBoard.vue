@@ -125,9 +125,6 @@ export default {
         }
       }
     }
-  },
-  created() {
-    this.randomGenerate();
   }
 };
 </script>
