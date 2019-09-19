@@ -19,12 +19,7 @@ export default {
           leftPosition: 0,
           direction: 'right',
           moving: null,
-          foods: [
-            [10,10],
-            [12,70],
-            [60,80],
-            [60,20]
-          ],
+          foods: [],
           score: 0
         }
     },
@@ -96,7 +91,10 @@ export default {
       }
     },
     created(){
-      console.log(this.foods)
+      let totalFoods = Math.ceil(Math.random()*5)+4
+      for(let i = 0; i < totalFoods; i++){
+        this.foods.push([Math.ceil(Math.random()*90), Math.ceil(Math.random()*90)])
+      }
       window.addEventListener('keyup', this.handler);
    
     }
@@ -104,11 +102,7 @@ export default {
 </script>
 
 <style scoped>
-  /* .background {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-  } */
+
   .box{
     position: absolute;
     width: 5vw; 
