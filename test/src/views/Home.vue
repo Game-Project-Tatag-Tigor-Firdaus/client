@@ -31,8 +31,8 @@ export default {
           score: 0,
           timer: 10,
           countdown: null,
-          speedY: 0.2,
-          speedX: 0.1
+          speedY: 0.4,
+          speedX: 0.3
 
         }
     },
@@ -74,8 +74,8 @@ export default {
     watch: {
       timer(){
         if(this.timer === 5){
-          this.speedY *= 3
-          this.speedX *= 3
+          this.speedY *= 2
+          this.speedX *= 2
         }
       },
       leftPosition(){
