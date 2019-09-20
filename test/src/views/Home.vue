@@ -141,7 +141,7 @@ export default {
       for(let i = 0; i < totalFoods; i++){
         this.foods.push([Math.ceil(Math.random()*90), Math.ceil(Math.random()*90)])
       }
-
+      console.log(this.foods)
       window.addEventListener('keyup', this.handler);
     }
 }
