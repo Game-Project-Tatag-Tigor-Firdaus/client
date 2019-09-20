@@ -80,8 +80,8 @@ export default {
       },
       leftPosition(){
           for(let el in this.foods){ 
-            if(this.topPosition < (this.foods[el][0] + 7) && this.topPosition > (this.foods[el][0] - 2 )&& 
-              this.leftPosition < (this.foods[el][1] + 7) && this.leftPosition > (this.foods[el][1] -2)){
+            if(this.topPosition < (this.foods[el][0] + 7) && this.topPosition > (this.foods[el][0] - 5 )&& 
+              this.leftPosition < (this.foods[el][1] + 7) && this.leftPosition > (this.foods[el][1] -5)){
               var audio = new Audio(require("../assets/pacman_chomp.wav"));
               audio.play();
               this.score++
@@ -102,8 +102,8 @@ export default {
       topPosition(){
 
           for(let el in this.foods){ 
-            if(this.topPosition < (this.foods[el][0] + 7) && this.topPosition > (this.foods[el][0] - 2)&& 
-              this.leftPosition < (this.foods[el][1] + 7) && this.leftPosition > (this.foods[el][1] - 2)){
+            if(this.topPosition < (this.foods[el][0] + 7) && this.topPosition > (this.foods[el][0] - 5)&& 
+              this.leftPosition < (this.foods[el][1] + 7) && this.leftPosition > (this.foods[el][1] - 5)){
               var audio = new Audio(require("../assets/pacman_chomp.wav"));
               audio.play();
               this.score++
@@ -141,6 +141,7 @@ export default {
       for(let i = 0; i < totalFoods; i++){
         this.foods.push([Math.ceil(Math.random()*90), Math.ceil(Math.random()*90)])
       }
+
       window.addEventListener('keyup', this.handler);
     }
 }
