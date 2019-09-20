@@ -9,7 +9,7 @@
         </v-col>
         <v-col cols="2" class="pa-12">
           <div class="my-2">
-            <v-btn class="mx-2" fab dark color="orange">
+            <v-btn class="mx-2" fab dark color="orange" @click="triggerCreateRoom">
               <v-icon dark>mdi-plus</v-icon>
             </v-btn>
           </div>
@@ -29,6 +29,7 @@
     </v-container>
 
     <login :loginModal="loginModal" @statusLogin="changeLoginStatus" />
+    <createRoom :createModal="createModal" @createRoom="createRoom" @close="closeCreateModal" />
   </div>
 </template>
 
@@ -37,13 +38,15 @@ import login from "../components/Login";
 import roomSelf from "../components/RoomSelf";
 import roomOthers from "../components/RoomOthers";
 import appBar from "../components/AppBar";
+import createRoom from "../components/CreateRoom";
 
 export default {
   components: {
     appBar,
     login,
     roomSelf,
-    roomOthers
+    roomOthers,
+    createRoom
   },
   props: {
     source: String
@@ -55,7 +58,8 @@ export default {
     drawerRight: null,
     right: false,
     left: false,
-    loginModal: false
+    loginModal: false,
+    createModal: false
   }),
   methods: {
     changeLoginStatus(cond, payload) {
@@ -80,6 +84,15 @@ export default {
     logout() {
       localStorage.removeItem("username");
       this.checkLoginStatus();
+    },
+    createRoom(roomName) {
+      this.createModal = false;
+    },
+    triggerCreateRoom() {
+      this.createModal = true;
+    },
+    closeCreateModal() {
+      this.createModal = false;
     }
   },
   created() {
