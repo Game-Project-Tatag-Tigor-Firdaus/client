@@ -8,7 +8,7 @@
         </v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
-          <v-btn color="green darken-1" dark @click="saveToLocalStorage">Go</v-btn>
+          <v-btn color="green darken-1" dark @click.prevent="saveToLocalStorage">Go</v-btn>
           <div class="flex-grow-1"></div>
         </v-card-actions>
       </v-card>
@@ -26,6 +26,9 @@ export default {
   },
   methods: {
     saveToLocalStorage() {
+      console.log(this.username);
+      localStorage.setItem("username", this.username);
+      this.username = "";
       this.$emit("statusLogin", true, this.username);
     }
   }

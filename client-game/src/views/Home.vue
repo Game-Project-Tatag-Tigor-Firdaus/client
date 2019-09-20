@@ -14,10 +14,10 @@
             </v-btn>
           </div>
         </v-col>
-        <v-col cols="12">
+        <!-- <v-col cols="12">
           <roomSelf />
           <roomSelf />
-        </v-col>
+        </v-col> -->
         <v-col cols="12" class="pa-12">
           <h2>Available Rooms</h2>
           <v-divider></v-divider>
@@ -64,7 +64,6 @@ export default {
   methods: {
     changeLoginStatus(cond, payload) {
       console.log("============ Masuk ============");
-      localStorage.setItem("username", payload);
       this.isLogin = cond;
       this.checkLoginStatus();
     },
@@ -72,9 +71,11 @@ export default {
       console.log(localStorage.getItem("username"));
       if (localStorage.getItem("username")) {
         this.isLogin = true;
+        this.$store.dispatch('getRooms');
         this.triggerModal(false);
       } else {
         this.isLogin = false;
+        this.$store.commit('emptyRoom');
         this.triggerModal(true);
       }
     },
