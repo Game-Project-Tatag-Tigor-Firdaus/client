@@ -21,12 +21,12 @@ export default {
   props: ["createModal"],
   data() {
     return {
-      username: "",
       roomName: ""
     };
   },
   methods: {
     createRoom() {
+      this.$store.dispatch("createRoom", this.roomName);
       this.$emit("createRoom", this.roomName);
       this.roomName = "";
     },

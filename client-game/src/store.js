@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import router from './router';
 import Vuex from 'vuex';
 import db from '../apis/firabase';
 import * as firebase from 'firebase/app';
@@ -25,16 +26,24 @@ export default new Vuex.Store({
         title: "Creating room on process"
       });
       Swal.showLoading();
+      let totalFoods = Math.ceil(Math.random() * 5) + 4
+      let foods = [];
+      for (let i = 0; i < totalFoods; i++) {
+        foods.push({ y: Math.ceil(Math.random() * 90), x: Math.ceil(Math.random() * 90) })
+      }
+      console.log(foods); 
       let playerName = localStorage.getItem('username');
       db.collection('roomCollection')
         .add({
           name: payload,
           roomOwner: playerName,
           status: false,
-          players: []
+          foods: foods,
+          players: [{ name: playerName, score: 0 }],
         })
         .then(ref => {
           Swal.close();
+          router.push(`/room/${id}`);
           Swal.fire('Success', `Create room success`, `success`);
           console.log(ref.id);
           console.log(ref);
