@@ -1,9 +1,6 @@
 <template>
   <v-row justify="center">
     <v-dialog v-model="loginModal" persistent max-width="290">
-      <!-- <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
-      </template>-->
       <v-card>
         <v-card-title class="headline">Please put your name</v-card-title>
         <v-card-text>
@@ -11,8 +8,7 @@
         </v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
-
-          <v-btn color="green darken-1" text @click="saveToLocalStorage">Go</v-btn>
+          <v-btn color="green darken-1" dark @click="saveToLocalStorage">Go</v-btn>
           <div class="flex-grow-1"></div>
         </v-card-actions>
       </v-card>

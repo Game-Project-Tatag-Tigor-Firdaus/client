@@ -1,72 +1,55 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawerRight" app clipped right>
-      <v-list dense>
-        <v-list-item @click.stop="right = !right">
-          <v-list-item-action>
-            <v-icon>mdi-exit-to-app</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Open Temporary Drawer</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-app-bar app clipped-left clipped-right color="blue-grey" dark>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Battleship</v-toolbar-title>
-      <div class="flex-grow-1"></div>
-      <v-toolbar-title>History</v-toolbar-title>
-      <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight"></v-app-bar-nav-icon>
-    </v-app-bar>
-
-    <v-navigation-drawer v-model="drawer" clipped app>
-      <v-list dense>
-        <v-list-item @click.stop="left = !left">
-          <v-list-item-action>
-            <v-icon>mdi-exit-to-app</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Open Temporary Drawer</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-navigation-drawer v-model="left" fixed temporary></v-navigation-drawer>
-
-    <!-- ISI DISINI BUAT DITENGAH -->
-
-    <v-content>
-      <!-- <playerBoard></playerBoard> -->
-
-      <!-- <v-container class="fill-height" fluid>
-
-      </v-container>-->
-    </v-content>
-
-    <!-- Opponent Board Hidden Behind V-Navigation-Drawer -->
-
-    <v-navigation-drawer v-model="right" fixed right temporary></v-navigation-drawer>
+    <appBar @logoutSignal="logout" />
+    <v-container>
+      <v-row align="center" justify="start" no-gutters>
+        <v-col cols="10" class="pa-12">
+          <h2>Create New Room</h2>
+          <v-divider></v-divider>
+        </v-col>
+        <v-col cols="2" class="pa-12">
+          <div class="my-2">
+            <v-btn class="mx-2" fab dark color="orange">
+              <v-icon dark>mdi-plus</v-icon>
+            </v-btn>
+          </div>
+        </v-col>
+        <v-col cols="12">
+          <roomSelf />
+          <roomSelf />
+        </v-col>
+        <v-col cols="12" class="pa-12">
+          <h2>Available Rooms</h2>
+          <v-divider></v-divider>
+        </v-col>
+        <v-col cols="12">
+          <roomOthers />
+        </v-col>
+      </v-row>
+    </v-container>
 
     <login :loginModal="loginModal" @statusLogin="changeLoginStatus" />
   </div>
 </template>
 
 <script>
-import playerBoard from "../components/PlayerBoard";
 import login from "../components/Login";
+import roomSelf from "../components/RoomSelf";
+import roomOthers from "../components/RoomOthers";
+import appBar from "../components/AppBar";
 
 export default {
   components: {
-    playerBoard,
-    login
+    appBar,
+    login,
+    roomSelf,
+    roomOthers
   },
   props: {
     source: String
   },
   data: () => ({
+    username: localStorage.getItem("username"),
     isLogin: false,
     drawer: null,
     drawerRight: null,
@@ -93,6 +76,10 @@ export default {
     },
     triggerModal(bool) {
       this.loginModal = bool;
+    },
+    logout() {
+      localStorage.removeItem("username");
+      this.checkLoginStatus();
     }
   },
   created() {
