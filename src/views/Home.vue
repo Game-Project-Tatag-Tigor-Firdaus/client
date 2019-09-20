@@ -86,6 +86,9 @@ export default {
       this.checkLoginStatus();
     },
     createRoom(roomName) {
+      if (roomName) {
+        roomName;
+      }
       this.createModal = false;
     },
     triggerCreateRoom() {
