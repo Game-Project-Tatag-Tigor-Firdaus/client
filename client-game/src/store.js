@@ -31,22 +31,21 @@ export default new Vuex.Store({
       for (let i = 0; i < totalFoods; i++) {
         foods.push({ y: Math.ceil(Math.random() * 90), x: Math.ceil(Math.random() * 90) })
       }
-      console.log(foods); 
+      console.log(foods);
       let playerName = localStorage.getItem('username');
       db.collection('roomCollection')
         .add({
           name: payload,
           roomOwner: playerName,
-          status: false,
+          status: 'belum',
           foods: foods,
           players: [{ name: playerName, score: 0 }],
+          results: []
         })
         .then(ref => {
           Swal.close();
-          router.push(`/room/${id}`);
+          router.push(`/room/${ref.id}`);
           Swal.fire('Success', `Create room success`, `success`);
-          console.log(ref.id);
-          console.log(ref);
         })
         .catch(console.log);
     },
@@ -63,6 +62,7 @@ export default new Vuex.Store({
         })
         .then(() => {
           Swal.close();
+          router.push(`/room/${id}`);
           Swal.fire(
             `Success`,
             `Join room success`,
@@ -71,16 +71,28 @@ export default new Vuex.Store({
         })
         .catch(console.log)
     },
-
+    pushResult(context, data) {
+      console.log(data, `ini di store`);
+      db.collection('roomCollection')
+        .doc(data.id)
+        .update({
+          "results": firebase.firestore.FieldValue.arrayUnion({ name: data.name, score: data.score, times: data.times })
+        })
+        .then(() => {
+          Swal.close();
+          router.push(`/result/${data.id}`);
+        })
+        .catch(console.log)
+    },
     startGame(context, id) {
       Swal.fire({
-        title: "Initiatin game..."
+        title: "Initiating game..."
       });
       Swal.showLoading();
       db.collection('roomCollection')
         .doc(id)
         .update({
-          "status": true
+          "status": 'mulai'
         })
         .then(() => {
           Swal.close();
@@ -90,7 +102,7 @@ export default new Vuex.Store({
 
     getRooms(context) {
       db.collection('roomCollection')
-        .where('status', '==', false)
+        .where('status', '==', 'belum')
         .onSnapshot((querySnapshot) => {
           let rooms = [];
           querySnapshot.forEach((doc) => {

@@ -8,7 +8,7 @@
             <h4>Created By: {{room.roomOwner}}</h4>
           </v-col>
           <v-col cols="1">
-            <v-btn class="mr-12 indigo">Enter</v-btn>
+            <v-btn class="mr-12 indigo" @click.prevent="joinRoom(room.id)">Enter</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -17,7 +17,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods:{
+    joinRoom(id){
+      this.$store.dispatch('joinRoom', id);
+    }
+  }
+};
 </script>
 
 <style>
